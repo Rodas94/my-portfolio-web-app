@@ -1,263 +1,394 @@
-# Mini-Project: Deploy a Cloud Service Using Docker on Ubuntu
+# Configuring a PXE Network Boot Server for Ubuntu 20.04 and Windows 10
 
-## Objective
+This guide details the steps to configure a PXE network boot server on Ubuntu 20.04 with the following settings:
 
-To set up and deploy a simple web server using Apache within a Docker container on an Ubuntu server.
+- **Server IP:** `10.240.34.55`
+- **Server Name:** `ns1.astu.local.net`
+- **Boot Operating Systems:** Ubuntu 20.04 and Windows 10
+
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Step 1: Install Required Packages](#step-1-install-required-packages)
+- [Step 2: Configure DHCP Server](#step-2-configure-dhcp-server)
+- [Step 3: Configure TFTP Server](#step-3-configure-tftp-server)
+- [Step 4: Set Up PXE Boot Loader](#step-4-set-up-pxe-boot-loader)
+- [Step 5: Configure NFS for Ubuntu Installation](#step-5-configure-nfs-for-ubuntu-installation)
+- [Step 6: Set Up Windows 10 PXE Files](#step-6-set-up-windows-10-pxe-files)
+- [Firewall and Security Rules](#firewall-and-security-rules)
+- [Verify Services](#verify-services)
+- [Monitor PXE Boot Logs](#monitor-pxe-boot-logs)
 
 ## Prerequisites
 
-- Ubuntu Server (18.04 or later recommended).
-- Basic knowledge of Linux commands.
-- A user account with sudo privileges.
+- An Ubuntu 20.04 server with root access
+- DHCP and TFTP services
+- Installation ISO images for Ubuntu 20.04 and Windows 10
+- Network interface configured with static IP (`10.240.34.55`)
 
----
-
-## Step 1: Update the System
-
-Start by updating your package index to ensure your system has the latest updates:
-
-```bash
-sudo apt update && sudo apt upgrade -y
-```
-
----
-
-## Step 2: Install Docker
-
-### 2.1 Install Docker Prerequisites
-
-```bash
-sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
-```
-
-### 2.2 Add Docker's Official GPG Key
-
-```bash
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-```
-
-### 2.3 Set Up Docker Repository
-
-```bash
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-```
-
-### 2.4 Install Docker
+## Step 1: Install Required Packages
 
 ```bash
 sudo apt update
-sudo apt install docker-ce -y
+sudo apt install isc-dhcp-server tftp-hpa tftpd-hpa syslinux pxelinux nfs-kernel-server
 ```
 
-### 2.5 Verify Docker Installation
+## Step 2: Configure DHCP Server
+
+### Network Information
+
+Display routing table and network interface configuration:
 
 ```bash
-docker --version
+route -n          # Displays the routing table
+ifconfig          # Displays the current configuration for a network interface
 ```
 
-### 2.6 Start Docker and Enable on Boot
+### DHCP Configuration
+
+Edit the DHCP configuration file:
 
 ```bash
-sudo systemctl start docker
-sudo systemctl enable docker
+sudo vi /etc/dhcp/dhcpd.conf
 ```
 
----
+Add the following configuration:
 
-## Step 3: Deploy an Apache Web Server Container
+```text
+ddns-update-style none;
+authoritative;
 
-### 3.1 Pull the Official Apache HTTP Server Image
+subnet 10.240.34.0 netmask 255.255.255.0 {
+    interface enp0s3;
+    range 10.240.34.100 10.240.34.200;
+    option routers 10.240.34.1;
+    option broadcast-address 10.240.34.255;
+    option subnet-mask 255.255.255.0;
+    option domain-name-servers 10.240.34.55;
+    option domain-name "your-domain.local";
+    next-server 10.240.34.55;
+    filename "pxelinux.0";
+    default-lease-time 600;
+    max-lease-time 7200;
+}
+```
+
+### DHCP Service Configuration
+
+Edit the `/etc/default/isc-dhcp-server` file:
 
 ```bash
-docker pull httpd:latest
+sudo vi /etc/default/isc-dhcp-server
 ```
 
-### 3.2 Run the Apache Container
+Set the interface:
+
+```text
+INTERFACESv4="enp0s3"
+```
+
+### Restart DHCP Service
 
 ```bash
-docker run -dit --name apache-server -p 8080:80 httpd:latest
+sudo systemctl restart isc-dhcp-server
+sudo systemctl status isc-dhcp-server
 ```
 
-**Explanation:**
+### Troubleshooting DHCP
 
-- `--name apache-server`: Names the container `apache-server`.
-- `-p 8080:80`: Maps port 80 in the container to port 8080 on the host.
-- `-dit`: Runs the container in detached mode with an interactive terminal.
-
-### 3.3 Verify Container is Running
+If any error occurs, check the process ID and logs:
 
 ```bash
-docker ps
+# Check the process ID (example: 2167)
+journalctl _PID=2167
 ```
 
----
+## Step 3: Configure TFTP Server
 
-## Step 4: Test the Web Server
-
-### 4.1 Access the Web Server
-
-Open a browser and navigate to:
-
-```
-http://<server-ip>:8080
-```
-
-Replace `<server-ip>` with your Ubuntu server's IP address.
-
-### 4.2 Find Your Server's IP Address
-
-If you do not know your server's IP, you can find it using:
+Edit the TFTP configuration file:
 
 ```bash
-ip a
+sudo vi /etc/default/tftpd-hpa
 ```
 
-You should see the default Apache web page when the server is running correctly.
+Set the following options:
 
----
+```text
+TFTP_USERNAME="tftp"
+TFTP_DIRECTORY="/var/lib/tftpboot"
+TFTP_ADDRESS="0.0.0.0:69"
+TFTP_OPTIONS="--secure"
+```
 
-## Step 5: Managing the Container
-
-### 5.1 View Running Containers
+Restart TFTP service:
 
 ```bash
-docker ps
+sudo systemctl enable tftpd-hpa.service
+sudo systemctl restart tftpd-hpa
+sudo systemctl status tftpd-hpa
 ```
 
-### 5.2 Stop the Container
+## Step 4: Set Up PXE Boot Loader
+
+### Create Required PXE Directories and Files
 
 ```bash
-docker stop apache-server
+sudo mkdir -p /var/lib/tftpboot/pxelinux.cfg
+sudo mkdir -p /var/lib/tftpboot/
+sudo cp /usr/lib/PXELINUX/pxelinux.0 /var/lib/tftpboot/
+sudo cp /usr/lib/syslinux/modules/bios/* /var/lib/tftpboot/
 ```
 
-### 5.3 Restart the Container
+### Create PXE Boot Menu Configuration
+
+Create the PXE boot menu configuration file:
 
 ```bash
-docker start apache-server
+sudo vi /var/lib/tftpboot/pxelinux.cfg/default
 ```
 
-### 5.4 Remove the Container
+Add the following content:
+
+```text
+DEFAULT menu.c32
+PROMPT 0
+TIMEOUT 100
+ONTIMEOUT local
+MENU TITLE PXE Boot Menu
+
+LABEL Ubuntu
+    MENU LABEL Install Ubuntu 20.04
+    KERNEL ubuntu/vmlinuz
+    APPEND initrd=ubuntu/initrd root=/dev/nfs nfsroot=10.240.34.55:/srv/nfs/ubuntu ip=dhcp rw
+
+LABEL Windows10
+    MENU LABEL Install Windows 10
+    KERNEL boot/wimboot
+    INITRD boot/bcd,boot/boot.sdi,boot/boot.wim,boot/bootmgr
+
+LABEL LocalBoot
+    MENU LABEL Boot from Local Drive
+    LOCALBOOT 0
+```
+
+## Step 5: Configure NFS for Ubuntu Installation
+
+### Set Up NFS Directory
 
 ```bash
-docker rm apache-server
+sudo mkdir -p /srv/nfs/ubuntu
 ```
 
-### 5.5 Remove the Image
+### Mount Ubuntu ISO
 
 ```bash
-docker rmi httpd:latest
+sudo chmod 644 /path/to/ubuntu.iso
+sudo mount -o loop /path/to/ubuntu.iso /mnt
 ```
 
----
+### Copy Ubuntu Boot Files to TFTP Directory
 
-## Advanced Configuration (Optional)
-
-### Serve Custom Content
-
-Create a directory for your custom content and add a sample HTML file:
+Verify that the kernel (`vmlinuz`) and initramfs (`initrd`) files are present:
 
 ```bash
-mkdir -p ~/apache-content
-echo "<h1>Welcome to My Dockerized Apache Server</h1>" | sudo tee ~/apache-content/index.html
+ls -l /var/lib/tftpboot/ubuntu/
 ```
 
-### Volume Permissions
-
-If you're using a custom volume for your Apache content, ensure that the permissions are correctly set.
-
-**Check Ownership and Permissions:**
+If they are missing, copy them:
 
 ```bash
-ls -ld ~/apache-content
+sudo mkdir -p /var/lib/tftpboot/ubuntu
+sudo cp /mnt/casper/vmlinuz /var/lib/tftpboot/ubuntu/
+sudo cp /mnt/casper/initrd /var/lib/tftpboot/ubuntu/
 ```
 
-The directory should be owned by the `www-data` user (inside the container). To fix ownership and permissions, run:
+### Copy Ubuntu Files to NFS
 
 ```bash
-sudo chown -R 33:33 ~/apache-content
-sudo chmod -R 755 ~/apache-content
+sudo rsync -av /mnt/ /srv/nfs/ubuntu/
 ```
 
-> **Note:** `33:33` corresponds to `www-data` (UID and GID) used by Apache inside the container. The `755` permission ensures the directory and its files are readable by the server.
-
-**Restart the Container with Custom Content:**
+### Unmount the ISO
 
 ```bash
-docker stop apache-server
-docker rm apache-server
-docker run -dit --name apache-server -p 8080:80 -v ~/apache-content:/usr/local/apache2/htdocs/ httpd:latest
+sudo umount /mnt
 ```
 
-**Test the Web Server Again:**
-Visit `http://<server-ip>:8080` to see your custom content.
+### Configure NFS Exports
 
----
+Edit the NFS exports configuration:
+
+```bash
+sudo vi /etc/exports
+```
+
+Add the following line:
+
+```text
+/srv/nfs/ubuntu *(ro,sync,no_root_squash,no_subtree_check)
+```
+
+### Verify NFS Export
+
+```bash
+sudo exportfs -v
+```
+
+You should see output similar to:
+
+```text
+/srv/nfs/ubuntu  <world>(ro,sync,wdelay,no_root_squash,no_subtree_check)
+```
+
+### Restart NFS Server
+
+```bash
+sudo systemctl restart nfs-kernel-server
+sudo systemctl status nfs-kernel-server
+```
+
+### Test NFS
+
+Test from a client machine or the server itself:
+
+```bash
+showmount -e 10.240.34.55
+```
+
+You should see `/srv/nfs/ubuntu` listed.
+
+## Step 6: Set Up Windows 10 PXE Files
+
+### Mount the Windows ISO
+
+Create a mount point:
+
+```bash
+sudo mkdir -p /mnt/windowsAIO
+```
+
+Mount the Windows ISO:
+
+```bash
+sudo mount -o loop /home/rod/ftp/upload/Windows.10.X64.22H2.iso /mnt/windowsAIO
+```
+
+### Create TFTPboot Directory
+
+```bash
+sudo mkdir -p /var/lib/tftpboot/boot
+```
+
+### Copy Required Boot Files
+
+Copy `wimboot` from the ISO:
+
+```bash
+# The exact location of wimboot may vary
+sudo cp /mnt/windowsAIO/sources/boot/wimboot /var/lib/tftpboot/
+```
+
+If `wimboot` is missing from the ISO, download it from the iPXE project:
+
+```bash
+sudo wget -P /var/lib/tftpboot/ https://ipxe.org/wimboot
+sudo chmod 644 /var/lib/tftpboot/wimboot
+```
+
+Copy essential boot files:
+
+```bash
+sudo cp /mnt/windowsAIO/sources/boot/{BCD,boot.sdi,boot.wim} /var/lib/tftpboot/boot/
+sudo cp /mnt/windowsAIO/boot/* /var/lib/tftpboot/boot/
+```
+
+### Unmount the Windows ISO
+
+```bash
+sudo umount /mnt/windowsAIO
+```
+
+## Firewall and Security Rules
+
+Configure the firewall on the PXE server to allow TFTP, NFS, and DHCP traffic:
+
+```bash
+sudo ufw allow 69/udp    # TFTP
+sudo ufw allow 2049/tcp  # NFS
+sudo ufw allow 67/udp    # DHCP
+```
+
+## Verify Services
+
+Ensure all services are running:
+
+```bash
+sudo systemctl restart isc-dhcp-server tftpd-hpa nfs-kernel-server
+sudo systemctl status isc-dhcp-server tftpd-hpa nfs-kernel-server
+```
+
+## Monitor PXE Boot Logs
+
+Check the logs to identify errors:
+
+### DHCP Logs
+
+```bash
+sudo journalctl -u isc-dhcp-server
+```
+
+### TFTP Logs
+
+```bash
+sudo journalctl -u tftpd-hpa
+```
+
+### NFS Logs
+
+```bash
+sudo journalctl -u nfs-kernel-server
+```
 
 ## Troubleshooting
 
-### Check Docker Service Status
+### Common Issues
 
-```bash
-sudo systemctl status docker
-```
+1. **DHCP not starting**: Check the interface name in `/etc/default/isc-dhcp-server` matches your actual network interface.
 
-### View Container Logs
+2. **TFTP permission denied**: Ensure the TFTP directory has correct permissions:
 
-```bash
-docker logs apache-server
-```
+   ```bash
+   sudo chown -R tftp:tftp /var/lib/tftpboot
+   ```
 
-### Check Port Availability
+3. **NFS mount fails**: Verify the NFS export is correct:
 
-```bash
-sudo netstat -tulpn | grep 8080
-```
+   ```bash
+   sudo exportfs -ra
+   ```
 
-### Firewall Configuration
+4. **Windows PXE boot fails**: Ensure all required files are copied to the boot directory:
+   ```bash
+   ls -la /var/lib/tftpboot/boot/
+   ```
 
-If you cannot access the web server, ensure the firewall allows port 8080:
+### Debugging Tips
 
-```bash
-sudo ufw allow 8080/tcp
-sudo ufw reload
-```
+- Check all service statuses: `sudo systemctl status isc-dhcp-server tftpd-hpa nfs-kernel-server`
+- Verify network connectivity: `ping 10.240.34.55`
+- Test TFTP from client: `tftp 10.240.34.55 -c get pxelinux.0`
 
----
+## Additional Resources
 
-## Conclusion
-
-🎉 **Congratulations!** You have successfully deployed an Apache web server using Docker on Ubuntu.
-
-### What's Next?
-
-Here are some suggestions for what you can explore next to enhance your knowledge and expand on this project:
-
-1. **Container Orchestration**: Learn Kubernetes or Docker Swarm for managing multiple containers.
-2. **CI/CD Integration**: Set up automated builds and deployments using GitHub Actions or Jenkins.
-3. **Container Security**: Implement security best practices and scan for vulnerabilities.
-4. **Application Stack Deployment**: Deploy a multi-tier application with a database and backend service.
-5. **Docker Compose**: Use Docker Compose to define and run multi-container applications.
-6. **Monitoring**: Implement container monitoring with Prometheus and Grafana.
-7. **Container Networking**: Explore advanced Docker networking configurations.
-8. **Persistent Volumes**: Learn about Docker volumes for persistent storage.
-9. **Custom Docker Images**: Create your own Docker images using Dockerfiles.
-10. **Cloud Integration**: Deploy your Docker containers to cloud services like AWS ECS or Azure Container Instances.
-
----
-
-## Resources
-
-- [Docker Official Documentation](https://docs.docker.com/)
-- [Apache HTTP Server Documentation](https://httpd.apache.org/docs/)
-- [Ubuntu Server Documentation](https://ubuntu.com/server/docs)
-- [Docker Hub](https://hub.docker.com/)
-
----
+- [Ubuntu DHCP Server Documentation](https://ubuntu.com/server/docs/service-dhcp)
+- [Syslinux Documentation](https://wiki.syslinux.org/)
+- [iPXE Project](https://ipxe.org/)
+- [NFS HOWTO](https://nfs.sourceforge.net/)
 
 ## License
 
-This project is open-source and available under the MIT License.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Support
 
-For issues or questions, please create an issue in the repository or consult the Docker community forums.
+For issues or questions, please create an issue in the repository or contact the system administrator.
