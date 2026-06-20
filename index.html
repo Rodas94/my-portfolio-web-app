@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rodas Solomon | System Administrator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap");
+
+      :root {
+        --primary: #003366;
+      }
+
+      body {
+        font-family: "Inter", system_ui, sans-serif;
+      }
+
+      .heading-font {
+        font-family: "Space Grotesk", sans-serif;
+      }
+
+      .hero-bg {
+        background: linear-gradient(135deg, #003366 0%, #001f3f 100%);
+      }
+
+      .project-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .project-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px -12px rgb(0 51 102 / 0.25);
+      }
+
+      .nav-link {
+        position: relative;
+      }
+
+      .nav-link:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #003366;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:hover:after {
+        width: 100%;
+      }
+
+      .section-header {
+        position: relative;
+      }
+
+      .section-header:after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(to right, #003366, #0066cc);
+        bottom: -8px;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body class="bg-zinc-50 text-zinc-800">
+    <!-- Navbar -->
+    <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
+      <div
+        class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-9 h-9 bg-[#003366] text-white flex items-center justify-center rounded-xl font-bold text-xl"
+          >
+            RS
+          </div>
+          <div>
+            <span class="heading-font text-2xl font-semibold tracking-tight"
+              >Rodas Solomon</span
+            >
+          </div>
+        </div>
+
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+          <a href="#about" class="nav-link text-zinc-600 hover:text-[#003366]"
+            >About</a
+          >
+          <a
+            href="#competencies"
+            class="nav-link text-zinc-600 hover:text-[#003366]"
+            >Competencies</a
+          >
+          <a
+            href="#projects"
+            class="nav-link text-zinc-600 hover:text-[#003366]"
+            >Projects</a
+          >
+          <a href="#skills" class="nav-link text-zinc-600 hover:text-[#003366]"
+            >Skills</a
+          >
+          <a href="#contact" class="nav-link text-zinc-600 hover:text-[#003366]"
+            >Contact</a
+          >
+        </div>
+
+        <a
+          href="#contact"
+          class="bg-[#003366] hover:bg-[#002244] text-white px-6 py-2.5 rounded-2xl text-sm font-semibold transition-all flex items-center gap-2"
+        >
+          <i class="fas fa-paper-plane"></i>
+          Get In Touch
+        </a>
+      </div>
+    </nav>
+
+    <!-- Hero / About Me -->
+    <section id="about" class="hero-bg text-white py-24">
+      <div
+        class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center"
+      >
+        <div>
+          <div
+            class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-3xl mb-6"
+          >
+            <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+            <span class="text-sm font-medium">Available for opportunities</span>
+          </div>
+
+          <h1
+            class="heading-font text-6xl md:text-7xl font-semibold tracking-tighter leading-none mb-6"
+          >
+            Rodas Solomon
+          </h1>
+          <p class="text-2xl text-blue-100 mb-6">System Administrator</p>
+
+          <p class="text-lg text-blue-100 max-w-md">
+            Over 2 year of hands-on experience managing enterprise-grade server
+            environments. Passionate about secure, scalable, and highly
+            available IT infrastructure.
+          </p>
+
+          <div class="flex items-center gap-4 mt-10">
+            <a
+              href="#projects"
+              class="bg-white text-[#003366] px-8 py-4 rounded-3xl font-semibold flex items-center gap-3 hover:shadow-xl transition-all"
+            >
+              View My Projects
+              <i class="fas fa-arrow-down"></i>
+            </a>
+            <a
+              href="https://linkedin.com/in/rodas-solomon01"
+              target="_blank"
+              class="border border-white/60 hover:border-white px-6 py-4 rounded-3xl flex items-center gap-2 transition-all"
+            >
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Profile Picture -->
+        <div class="flex justify-center md:justify-end">
+          <div class="relative">
+            <div
+              class="w-80 h-80 bg-gradient-to-br from-blue-400 to-cyan-300 rounded-[4rem] p-2 shadow-2xl"
+            >
+              <img
+                src="https://media.licdn.com/dms/image/v2/D4D03AQEpI_xfGc8PEA/profile-displayphoto-scale_100_100/B4DZttvpJUJkAc-/0/1767072779255?e=1783555200&v=beta&t=S1B8ZQKma5ALyYdkNFk4F4lmkq8KJLXTGnWwgfEw6I8"
+                alt="Rodas Solomon"
+                class="w-full h-full object-cover rounded-[3rem] border-8 border-white"
+              />
+            </div>
+            <div
+              class="absolute -bottom-4 -right-4 bg-white text-[#003366] rounded-3xl px-6 py-3 shadow-xl flex items-center gap-3"
+            >
+              <div class="text-center">
+                <div class="text-3xl font-bold">2+</div>
+                <div class="text-xs tracking-widest uppercase">Year Exp</div>
+              </div>
+              <div class="h-10 w-px bg-zinc-200"></div>
+              <div>
+                <i class="fas fa-server text-3xl"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Description -->
+    <div class="max-w-4xl mx-auto px-6 -mt-10 relative z-10">
+      <div class="bg-white rounded-3xl shadow-xl p-10">
+        <p class="text-lg leading-relaxed text-zinc-600 text-justify">
+          System Administrator with over a year of hands-on experience managing
+          enterprise-grade server environments. Proven expertise in configuring,
+          maintaining, and troubleshooting
+          <strong>HP ProLiant DL380 Gen9 rack servers</strong> and
+          <strong>HPE Synergy 12000 Composable Infrastructure</strong>. Skilled
+          in optimizing hardware performance, ensuring system uptime, and
+          supporting scalable IT operations within high-availability data
+          centers.
+        </p>
+      </div>
+    </div>
+
+    <!-- Core Competencies -->
+    <section id="competencies" class="max-w-7xl mx-auto px-6 py-24">
+      <div class="text-center mb-16">
+        <span
+          class="inline-block px-4 py-2 bg-blue-100 text-[#003366] rounded-3xl text-sm font-semibold mb-4"
+          >EXPERTISE</span
+        >
+        <h2 class="heading-font text-5xl font-semibold tracking-tight">
+          Core Competencies
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div
+          class="bg-white p-8 rounded-3xl border border-zinc-100 hover:border-blue-200 transition-colors"
+        >
+          <div
+            class="w-12 h-12 bg-blue-100 text-[#003366] rounded-2xl flex items-center justify-center mb-6"
+          >
+            <i class="fas fa-server text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-xl mb-4">Server & Infrastructure</h3>
+          <ul class="space-y-3 text-zinc-600">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-emerald-500 mt-1"></i> HP ProLiant
+              DL380 Gen9
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-emerald-500 mt-1"></i> HPE Synergy
+              12000
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-emerald-500 mt-1"></i>
+              High-Availability Data Centers
+            </li>
+          </ul>
+        </div>
+
+        <div
+          class="bg-white p-8 rounded-3xl border border-zinc-100 hover:border-blue-200 transition-colors"
+        >
+          <div
+            class="w-12 h-12 bg-blue-100 text-[#003366] rounded-2xl flex items-center justify-center mb-6"
+          >
+            <i class="fas fa-network-wired text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-xl mb-4">Networking & Security</h3>
+          <ul class="space-y-3 text-zinc-600">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-emerald-500 mt-1"></i> VLAN
+              Segmentation
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-emerald-500 mt-1"></i> OPNsense
+              Firewall
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-emerald-500 mt-1"></i> Captive Portals
+              & SSO
+            </li>
+          </ul>
+        </div>
+
+        <div
+          class="bg-white p-8 rounded-3xl border border-zinc-100 hover:border-blue-200 transition-colors"
+        >
+          <div
+            class="w-12 h-12 bg-blue-100 text-[#003366] rounded-2xl flex items-center justify-center mb-6"
+          >
+            <i class="fas fa-cloud text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-xl mb-4">Virtualization & OS</h3>
+          <ul class="space-y-3 text-zinc-600">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-emerald-500 mt-1"></i> Linux (Ubuntu)
+              & Windows Server
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-emerald-500 mt-1"></i> Proxmox VE
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-emerald-500 mt-1"></i> Nutanix
+              Enterprise Cloud
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="bg-white py-20">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-12">
+          <h2 class="heading-font text-5xl font-semibold tracking-tight">
+            Certifications
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <a
+            href="https://drive.google.com/file/d/1Tq3p720kefmzRIqmiHDdb3sgpBBRv3jh/view"
+            target="_blank"
+            class="group border border-zinc-200 rounded-3xl p-8 hover:border-[#003366] transition-all hover:shadow-md flex gap-6 items-start"
+          >
+            <div class="text-5xl text-amber-500">🏆</div>
+            <div>
+              <h3 class="font-semibold text-xl">
+                Nutanix Enterprise Cloud Administration (ECA)
+              </h3>
+              <p class="text-zinc-500 mt-1">
+                Advanced cloud administration certification
+              </p>
+              <span
+                class="inline-block mt-6 text-xs uppercase tracking-widest bg-amber-100 text-amber-700 px-4 py-1 rounded-2xl"
+                >View Certificate</span
+              >
+            </div>
+          </a>
+
+          <a
+            href="https://drive.google.com/file/d/1nGVx8d_LLXhDjyxblJfBUOBUOnY2E6Rq/view"
+            target="_blank"
+            class="group border border-zinc-200 rounded-3xl p-8 hover:border-[#003366] transition-all hover:shadow-md flex gap-6 items-start"
+          >
+            <div class="text-5xl text-amber-500">🏆</div>
+            <div>
+              <h3 class="font-semibold text-xl">
+                Nutanix Hybrid Cloud Fundamentals (NHCF)
+              </h3>
+              <p class="text-zinc-500 mt-1">
+                Hybrid cloud infrastructure foundations
+              </p>
+              <span
+                class="inline-block mt-6 text-xs uppercase tracking-widest bg-amber-100 text-amber-700 px-4 py-1 rounded-2xl"
+                >View Certificate</span
+              >
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="py-24 bg-zinc-100">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <span class="px-5 py-2 bg-[#003366] text-white rounded-3xl text-sm"
+            >CASE STUDIES</span
+          >
+          <h2 class="heading-font text-5xl font-semibold tracking-tight mt-4">
+            Featured Projects
+          </h2>
+        </div>
+
+        <!-- Project 1 -->
+        <div class="project-card bg-white rounded-3xl p-10 mb-16">
+          <div class="grid md:grid-cols-12 gap-12">
+            <div class="md:col-span-5">
+              <div class="sticky top-28">
+                <div
+                  class="uppercase text-xs tracking-[2px] font-mono text-emerald-600 mb-2"
+                >
+                  PROJECT 01
+                </div>
+                <h3
+                  class="heading-font text-4xl font-semibold leading-none mb-6"
+                >
+                  ASTU Exam URL Centralization
+                </h3>
+                <div class="flex flex-wrap gap-3">
+                  <span
+                    class="px-4 py-2 bg-zinc-100 text-xs font-medium rounded-2xl"
+                    >Ubuntu</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-zinc-100 text-xs font-medium rounded-2xl"
+                    >Apache</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-zinc-100 text-xs font-medium rounded-2xl"
+                    >PHP</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-zinc-100 text-xs font-medium rounded-2xl"
+                    >SEB</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="md:col-span-7">
+              <div class="space-y-10">
+                <div>
+                  <h4
+                    class="uppercase text-xs font-semibold text-zinc-500 mb-3"
+                  >
+                    🏛️ Situation
+                  </h4>
+                  <p class="text-zinc-600 text-justify">
+                    Adama Science and Technology University (ASTU) utilizes
+                    multiple computer labs, including advanced smart labs, to
+                    administer critical electronic examinations. To manage these
+                    facilities, the university employs a hierarchical network
+                    architecture segmented by VLANs. However, because of this
+                    complex setup, IT staff must manually configure the Safe
+                    Exam Browser (SEB) on every individual machine—a tedious
+                    process prone to human error and operational inefficiencies.
+                  </p>
+                </div>
+                <div>
+                  <h4
+                    class="uppercase text-xs font-semibold text-zinc-500 mb-3"
+                  >
+                    🎯 Task
+                  </h4>
+                  <p class="text-zinc-600">
+                    Create a single centralized access point to dynamically
+                    manage exam URLs across all labs and VLANs.
+                  </p>
+                </div>
+                <div>
+                  <h4
+                    class="uppercase text-xs font-semibold text-zinc-500 mb-3"
+                  >
+                    🛠️ Action
+                  </h4>
+                  <ul class="list-disc pl-6 text-zinc-600 space-y-2">
+                    <li>
+                      Deployed secure Apache + PHP + MySQL web server on Ubuntu
+                    </li>
+                    <li>
+                      Built dynamic URL mapping system with automatic subnet
+                      detection
+                    </li>
+                    <li>
+                      Created master SEB configuration pointing to central
+                      server
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4
+                    class="uppercase text-xs font-semibold text-zinc-500 mb-3"
+                  >
+                    🏆 Result
+                  </h4>
+                  <div class="grid grid-cols-3 gap-6">
+                    <div class="text-center">
+                      <div class="text-4xl font-bold text-emerald-600">0</div>
+                      <div class="text-xs uppercase">Config Errors</div>
+                    </div>
+                    <div class="text-center">
+                      <div class="text-4xl font-bold text-emerald-600">95%</div>
+                      <div class="text-xs uppercase">Time Saved</div>
+                    </div>
+                    <div class="text-center">
+                      <div class="text-4xl font-bold text-emerald-600">
+                        100s
+                      </div>
+                      <div class="text-xs uppercase">Concurrent Users</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card bg-white rounded-3xl p-10 mb-16">
+          <div class="grid md:grid-cols-12 gap-12">
+            <div class="md:col-span-5">
+              <div class="sticky top-28">
+                <div
+                  class="uppercase text-xs tracking-[2px] font-mono text-emerald-600 mb-2"
+                >
+                  PROJECT 02
+                </div>
+                <h3
+                  class="heading-font text-4xl font-semibold leading-none mb-6"
+                >
+                  ASTU Modern Captive Portal with Keycloak Google SSO
+                </h3>
+                <div class="flex flex-wrap gap-3">
+                  <span
+                    class="px-4 py-2 bg-zinc-100 text-xs font-medium rounded-2xl"
+                    >OPNsense</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-zinc-100 text-xs font-medium rounded-2xl"
+                    >Keycloak</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-zinc-100 text-xs font-medium rounded-2xl"
+                    >Ubuntu</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-zinc-100 text-xs font-medium rounded-2xl"
+                    >SSO</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="md:col-span-7">
+              <div class="space-y-10">
+                <div>
+                  <h4
+                    class="uppercase text-xs font-semibold text-zinc-500 mb-3"
+                  >
+                    🏛️ Situation
+                  </h4>
+                  <p class="text-zinc-600 text-justify">
+                    Adama Science and Technology University (ASTU) operates a
+                    large hierarchical campus network with multiple VLANs
+                    serving thousands of students, faculty, and staff.
+                    Previously, the network lacked proper access control — users
+                    could connect to the LAN and access the internet without any
+                    authentication. This created security risks, poor
+                    accountability, and inefficient bandwidth usage. The
+                    university required a modern, user-friendly captive portal
+                    solution that enforces institutional authentication using
+                    Google Workspace accounts (@astu.edu.et).
+                  </p>
+                </div>
+                <div>
+                  <h4
+                    class="uppercase text-xs font-semibold text-zinc-500 mb-3"
+                  >
+                    🎯 Task
+                  </h4>
+                  <div class="space-y-3 text-zinc-600">
+                    <p class="text-justify">
+                      As the System Administrator, I was tasked with designing
+                      and implementing a secure, scalable Captive Portal
+                      solution that:
+                    </p>
+                    <ul class="list-disc pl-6 space-y-2">
+                      <li>
+                        Enforce authentication before granting internet access
+                      </li>
+                      <li>
+                        Support seamless Google Workspace SSO via Keycloak
+                      </li>
+                      <li>
+                        Deliver a branded, professional captive portal
+                        experience
+                      </li>
+                      <li>
+                        Support institutional login and guest/voucher access
+                      </li>
+                      <li>
+                        Integrate cleanly with the existing OPNsense firewall
+                        infrastructure
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div>
+                  <h4
+                    class="uppercase text-xs font-semibold text-zinc-500 mb-3"
+                  >
+                    🛠️ Action
+                  </h4>
+                  <ul class="list-disc pl-6 text-zinc-600 space-y-2">
+                    <li>Deployed Keycloak + Google OAuth2 on Ubuntu</li>
+                    <li>
+                      Custom branded responsive captive portal (HTML/CSS/JS)
+                    </li>
+                    <li>Integrated with OPNsense firewall rules and VLANs</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4
+                    class="uppercase text-xs font-semibold text-zinc-500 mb-3"
+                  >
+                    🏆 Result
+                  </h4>
+                  <p class="text-emerald-600 font-medium">
+                    100% authentication enforcement • Zero-trust model
+                    implemented
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card bg-white rounded-3xl p-10">
+          <div class="grid md:grid-cols-12 gap-12">
+            <div class="md:col-span-5">
+              <div class="sticky top-28">
+                <div
+                  class="uppercase text-xs tracking-[2px] font-mono text-emerald-600 mb-2"
+                >
+                  PROJECT 03
+                </div>
+                <h3
+                  class="heading-font text-4xl font-semibold leading-none mb-6"
+                >
+                  ASTU Application Share
+                </h3>
+                <div class="flex flex-wrap gap-3">
+                  <span
+                    class="px-4 py-2 bg-zinc-100 text-xs font-medium rounded-2xl"
+                    >PHP</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-zinc-100 text-xs font-medium rounded-2xl"
+                    >Samba</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-zinc-100 text-xs font-medium rounded-2xl"
+                    >Ubuntu</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-zinc-100 text-xs font-medium rounded-2xl"
+                    >Apache</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="md:col-span-7">
+              <div class="space-y-10">
+                <div>
+                  <h4
+                    class="uppercase text-xs font-semibold text-zinc-500 mb-3"
+                  >
+                    🏛️ Situation
+                  </h4>
+                  <p class="text-zinc-600">
+                    ASTU relies on a complex, hierarchical campus network
+                    segmented across multiple Virtual Local Area Networks
+                    (VLANs) to maintain traffic isolation and institutional
+                    security. Academic and administrative departments required a
+                    centralized, seamless solution to access shared
+                    institutional files hosted on private storage nodes without
+                    relying on third-party cloud services or exposing storage
+                    infrastructure directly to end-user devices.
+                  </p>
+                </div>
+                <div>
+                  <h4
+                    class="uppercase text-xs font-semibold text-zinc-500 mb-3"
+                  >
+                    🎯 Task
+                  </h4>
+                  <ul class="text-zinc-600 space-y-3">
+                    <li class="flex items-start gap-3">
+                      <span
+                        class="inline-block mt-1 w-2 h-2 rounded-full bg-[#003366]"
+                      ></span>
+                      <div>
+                        <strong>Objective:</strong> Design, implement, and
+                        deploy a responsive web-based File Share Portal.
+                      </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <span
+                        class="inline-block mt-1 w-2 h-2 rounded-full bg-red-600"
+                      ></span>
+                      <div>
+                        <strong>Secure interface:</strong> Connect with back-end
+                        Samba (smbclient) shared storage from an isolated web
+                        tier.
+                      </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <span
+                        class="inline-block mt-1 w-2 h-2 rounded-full bg-zinc-400"
+                      ></span>
+                      <div>
+                        <strong>Usability:</strong> Provide an intuitive,
+                        real-time searchable grid-view for non-technical users.
+                      </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <span
+                        class="inline-block mt-1 w-2 h-2 rounded-full bg-white border border-zinc-200"
+                      ></span>
+                      <div>
+                        <strong>Branding:</strong> Enforce ASTU identity using a
+                        localized palette (#003366, Red, White).
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4
+                    class="uppercase text-xs font-semibold text-zinc-500 mb-3"
+                  >
+                    🛠️ Action
+                  </h4>
+                  <ul class="list-disc pl-6 text-zinc-600 space-y-2">
+                    <li>PHP middleware with smbclient abstraction layer</li>
+                    <li>Modern responsive grid UI with live search</li>
+                    <li>Robust path handling and security isolation</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4
+                    class="uppercase text-xs font-semibold text-zinc-500 mb-3"
+                  >
+                    🏆 Result
+                  </h4>
+                  <p class="text-emerald-600 font-medium">
+                    Fast, secure, zero-dependency internal file portal • Full
+                    institutional branding alignment
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Skills & Documentation -->
+    <section id="skills" class="max-w-7xl mx-auto px-6 py-24">
+      <div class="grid md:grid-cols-2 gap-16">
+        <!-- Technical Skills -->
+        <div>
+          <h2 class="heading-font text-4xl font-semibold mb-10">
+            Technical Skills
+          </h2>
+          <div class="space-y-8">
+            <div>
+              <h3 class="font-semibold mb-4 flex items-center gap-2">
+                <i class="fas fa-cogs"></i> Infrastructure
+              </h3>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-white px-5 py-2 rounded-3xl text-sm"
+                  >Ubuntu Server</span
+                >
+                <span class="bg-white px-5 py-2 rounded-3xl text-sm"
+                  >Windows Server</span
+                >
+                <span class="bg-white px-5 py-2 rounded-3xl text-sm"
+                  >Proxmox VE</span
+                >
+                <span class="bg-white px-5 py-2 rounded-3xl text-sm"
+                  >Docker</span
+                >
+                <span class="bg-white px-5 py-2 rounded-3xl text-sm"
+                  >Apache</span
+                >
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-semibold mb-4 flex items-center gap-2">
+                <i class="fas fa-shield-alt"></i> Security & Networking
+              </h3>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-white px-5 py-2 rounded-3xl text-sm"
+                  >OPNsense Firewall</span
+                >
+                <span class="bg-white px-5 py-2 rounded-3xl text-sm"
+                  >Keycloak SSO</span
+                >
+                <span class="bg-white px-5 py-2 rounded-3xl text-sm"
+                  >VLANs & Subnets</span
+                >
+                <span class="bg-white px-5 py-2 rounded-3xl text-sm"
+                  >Bind9 DNS</span
+                >
+                <span class="bg-white px-5 py-2 rounded-3xl text-sm"
+                  >vsftpd FTP</span
+                >
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-semibold mb-4 flex items-center gap-2">
+                <i class="fas fa-file-code"></i> Scripting & Automation
+              </h3>
+              <p class="text-zinc-600">
+                Bash scripting, JavaScript (ES6+), MySQL queries
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documentation & Scripting -->
+        <div>
+          <h2 class="heading-font text-4xl font-semibold mb-10">
+            # Documentation & Scripting
+          </h2>
+          <div class="bg-white border border-zinc-200 rounded-3xl p-8">
+            <h4 class="font-medium mb-6 text-lg">
+              Standard Operating Procedures Created
+            </h4>
+            <ul class="space-y-6">
+              <li class="border-l-4 border-[#003366] pl-6">
+                <div class="font-semibold">
+                  Ubuntu 24.04 LTS DNS Server Setup (Bind9)
+                </div>
+                <div class="text-sm text-zinc-500">
+                  A comprehensive guide and automation suite for deploying a
+                  local Primary DNS Server using Bind9 on Ubuntu 24.04 Server.
+                  <a
+                    href="https://github.com/Rodas94/dns-server-bind9-setup"
+                    class="text-blue-600 hover:underline inline-flex items-center gap-2"
+                  >
+                    <i class="fab fa-github"></i> Check it out on GitHub
+                  </a>
+                </div>
+              </li>
+              <li class="border-l-4 border-[#003366] pl-6">
+                <div class="font-semibold">
+                  Secure vsftpd FTP/FTPS Server Setup on Ubuntu 24.04 LTS
+                </div>
+                <div class="text-sm text-zinc-500">
+                  Deploying a secure FTP/FTPS Server using vsftpd on Ubuntu
+                  24.04 LTS.
+                  <a
+                    href="https://github.com/Rodas94/ftp-server-vsftpd-setup"
+                    class="text-blue-600 hover:underline inline-flex items-center gap-2"
+                  >
+                    <i class="fab fa-github"></i> Check it out on GitHub
+                  </a>
+                </div>
+              </li>
+              <li class="border-l-4 border-[#003366] pl-6">
+                <div class="font-semibold">
+                  Multi-OS PXE Network Boot Server (Ubuntu 20.04 & Windows 10)
+                </div>
+                <div class="text-sm text-zinc-500">
+                  A comprehensive, single-file architectural manual for
+                  deploying and configuring a network boot server for Ubuntu
+                  20.04 and Windows 10.
+                  <a
+                    href="https://github.com/Rodas94/pxe-boot-server-ubuntu-windows"
+                    class="text-blue-600 hover:underline inline-flex items-center gap-2"
+                  >
+                    <i class="fab fa-github"></i> Check it out on GitHub
+                  </a>
+                </div>
+              </li>
+              <li class="border-l-4 border-[#003366] pl-6">
+                <div class="font-semibold">
+                  Deploy a Cloud Service Using Docker on Ubuntu
+                </div>
+                <div class="text-sm text-zinc-500">
+                  To set up and deploy a simple web server using Apache within a
+                  Docker container on an Ubuntu server.
+                  <a
+                    href="https://github.com/Rodas94/docker-apache-ubuntu-deploy"
+                    class="text-blue-600 hover:underline inline-flex items-center gap-2"
+                  >
+                    <i class="fab fa-github"></i> Check it out on GitHub
+                  </a>
+                </div>
+              </li>
+            </ul>
+
+            <div class="mt-12 pt-8 border-t">
+              <p class="text-sm text-zinc-500 italic">
+                "All documentation includes step-by-step guides, troubleshooting
+                sections, and security best practices."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Network & Soft Skills -->
+    <section class="bg-white py-20">
+      <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16">
+        <div>
+          <h3 class="text-2xl font-semibold mb-6">Network Infrastructure</h3>
+          <p class="text-zinc-600">
+            Deep knowledge of LAN/WAN setups, TCP/IP protocols, subnetting,
+            managed switches, routers, and hierarchical VLAN design for large
+            campus networks.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-2xl font-semibold mb-6">Soft Skills</h3>
+          <p class="text-zinc-600">
+            Excellent communicator — able to translate complex technical
+            concepts into clear, actionable insights for non-technical faculty
+            and administration. Strong documentation and team collaboration
+            skills.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-24 bg-zinc-900 text-white">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="heading-font text-5xl font-semibold mb-6">Let's Connect</h2>
+        <p class="text-xl text-zinc-400 mb-12">
+          Ready to strengthen your IT infrastructure?
+        </p>
+
+        <div
+          class="flex flex-col md:flex-row gap-6 justify-center items-center"
+        >
+          <a
+            href="https://wa.me/251946574416"
+            target="_blank"
+            class="flex-1 md:flex-none bg-white text-zinc-900 px-10 py-6 rounded-3xl font-semibold flex items-center justify-center gap-4 hover:scale-105 transition"
+          >
+            <i class="fab fa-whatsapp text-2xl"></i>
+            <div>
+              <div class="text-sm opacity-70">WhatsApp</div>
+              <div>+251 946 574 416</div>
+            </div>
+          </a>
+
+          <a
+            href="https://linkedin.com/in/rodas-solomon01"
+            target="_blank"
+            class="flex-1 md:flex-none border border-white/30 hover:border-white px-10 py-6 rounded-3xl font-semibold flex items-center justify-center gap-3 transition"
+          >
+            <i class="fab fa-linkedin text-2xl"></i>
+            <span>LinkedIn</span>
+          </a>
+
+          <a
+            href="mailto:rodas.solomon@astu.edu.et"
+            class="flex-1 md:flex-none border border-white/10 bg-white/5 px-10 py-6 rounded-3xl font-semibold flex items-center justify-center gap-3 hover:scale-105 transition"
+          >
+            <i class="far fa-envelope text-2xl"></i>
+            <span>rodas.solomon@astu.edu.et</span>
+          </a>
+        </div>
+
+        <p class="mt-16 text-xs text-zinc-500">
+          © 2026 Rodas Solomon • System Administrator Portfolio
+        </p>
+      </div>
+    </section>
+
+    <script>
+      // Tailwind script already loaded
+      console.log(
+        "%cPortfolio loaded successfully 🚀",
+        "color: #003366; font-weight: bold",
+      );
+
+      // Smooth scrolling for nav
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          if (this.getAttribute("href") !== "#") {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+              target.scrollIntoView({
+                behavior: "smooth",
+              });
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
