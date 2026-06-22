@@ -79,6 +79,20 @@
       src="https://cloud.umami.is/script.js"
       data-website-id="95d912c6-f6ec-4f35-95cd-3937e921b188"
     ></script>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-FPGG9L5LJC"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-FPGG9L5LJC");
+    </script>
   </head>
   <body class="bg-zinc-50 text-zinc-800">
     <!-- Navbar -->
@@ -482,7 +496,8 @@
                       </div>
                       <div class="text-xs uppercase">Concurrent Users</div>
                       <div class="text-[10px] text-zinc-400 mt-1">
-                        Server only redirects the current exam URL, keeping it lightweight for high concurrency.
+                        Server only redirects the current exam URL, keeping it
+                        lightweight for high concurrency.
                       </div>
                     </div>
                   </div>
